@@ -1,4 +1,6 @@
+using GraphQL.Server.Ui.Voyager;
 using LimsDataAccess.Data;
+using LimsDataAccess.GraphQL;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -29,14 +31,16 @@ namespace LimsDataAccess
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddControllers();
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "LimsDataAccess", Version = "v1" });
-            });
+            //services.AddControllers();
+            //services.AddSwaggerGen(c =>
+            //{
+            //    c.SwaggerDoc("v1", new OpenApiInfo { Title = "LimsDataAccess", Version = "v1" });
+            //});
 
             services.AddDbContext<LimsContext>(options =>
                    options.UseSqlServer(Configuration.GetConnectionString("LimsContext")));
+
+            services.AddGraphQLServer().AddQueryType<Query>();
 
         }
 
@@ -46,8 +50,8 @@ namespace LimsDataAccess
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "LimsDataAccess v1"));
+                //app.UseSwagger();
+                //app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "LimsDataAccess v1"));
             }
 
             //Tar bort redirection för att kunna anropa localhost från Java-projekt, Certifikat-problem annars
@@ -55,11 +59,21 @@ namespace LimsDataAccess
 
             app.UseRouting();
 
-            app.UseAuthorization();
+            //app.UseAuthorization();
+
+            //app.UseEndpoints(endpoints =>
+            //{
+            //    endpoints.MapControllers();
+            //});
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
+                endpoints.MapGraphQL();
+            });
+
+            app.UseGraphQLVoyager(new VoyagerOptions()
+            {
+                GraphQLEndPoint = "/graphql"
             });
         }
     }
