@@ -66,15 +66,17 @@ namespace LimsDataAccess
             //    endpoints.MapControllers();
             //});
 
+
+            //https://localhost:44303/graphQL/
+            //http://localhost:3627/graphql/
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapGraphQL();
             });
 
-            app.UseGraphQLVoyager(new VoyagerOptions()
-            {
-                GraphQLEndPoint = "/graphql"
-            });
+
+            //https://localhost:44303/ui/voyager
+            app.UseGraphQLVoyager(new VoyagerOptions());
         }
     }
 }
