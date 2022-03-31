@@ -30,17 +30,22 @@ namespace LimsDataAccess
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             //services.AddControllers();
             //services.AddSwaggerGen(c =>
             //{
             //    c.SwaggerDoc("v1", new OpenApiInfo { Title = "LimsDataAccess", Version = "v1" });
             //});
 
-            services.AddDbContext<LimsContext>(options =>
+            services.AddPooledDbContextFactory<LimsContext>(options =>
                    options.UseSqlServer(Configuration.GetConnectionString("LimsContext")));
 
-            services.AddGraphQLServer().AddQueryType<Query>();
+            services
+                .AddGraphQLServer()
+                .AddQueryType<Query>()
+                .AddMutationType<Mutation>()
+                .AddProjections()
+                .AddFiltering()
+                .AddSorting();
 
         }
 

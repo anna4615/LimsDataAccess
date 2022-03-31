@@ -1,4 +1,5 @@
 ﻿using HotChocolate;
+using HotChocolate.Data;
 using LimsDataAccess.Data;
 using LimsDataAccess.Models;
 using System.Linq;
@@ -18,17 +19,29 @@ namespace LimsDataAccess.GraphQL
 
 
         //[service] tillgängligt via Hotchocolate, gör att context inte behöver injiceras från konstruktor utan direkt i metoden
-        public IQueryable<Elisa> GetElisas([Service] LimsContext context)
+        [UseDbContext(typeof(LimsContext))]
+        [UseProjection]
+        [UseFiltering]
+        [UseSorting]
+        public IQueryable<Elisa> GetElisas([ScopedService] LimsContext context)
         {
             return context.Elisa;
         }
 
-        public IQueryable<Sample> GetSamples([Service] LimsContext context)
+        [UseDbContext(typeof(LimsContext))]
+        [UseProjection]
+        [UseFiltering]
+        [UseSorting]
+        public IQueryable<Sample> GetSamples([ScopedService] LimsContext context)
         {
             return context.Sample;
         }
 
-        public IQueryable<Test> GetTests([Service] LimsContext context)
+        [UseDbContext(typeof(LimsContext))]
+        [UseProjection]
+        [UseFiltering]
+        [UseSorting]
+        public IQueryable<Test> GetTests([ScopedService] LimsContext context)
         {
             return context.Test;
         }

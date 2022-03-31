@@ -4,14 +4,16 @@ using LimsDataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace LimsDataAccess.Migrations
 {
     [DbContext(typeof(LimsContext))]
-    partial class LimsContextModelSnapshot : ModelSnapshot
+    [Migration("20220329120242_date fields")]
+    partial class datefields
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -69,9 +71,6 @@ namespace LimsDataAccess.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<int?>("ElisaId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ElisaPlatePosition")
                         .HasColumnType("int");
 
                     b.Property<int?>("IhcId")
