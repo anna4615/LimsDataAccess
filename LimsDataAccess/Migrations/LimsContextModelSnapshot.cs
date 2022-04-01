@@ -68,13 +68,10 @@ namespace LimsDataAccess.Migrations
                     b.Property<DateTime>("DateAdded")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("ElisaId")
+                    b.Property<int>("ElisaId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ElisaPlatePosition")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("IhcId")
+                    b.Property<int>("ElisaPlatePosition")
                         .HasColumnType("int");
 
                     b.Property<int>("SampleId")
@@ -96,7 +93,9 @@ namespace LimsDataAccess.Migrations
                 {
                     b.HasOne("LimsDataAccess.Models.Elisa", "Elisa")
                         .WithMany("Tests")
-                        .HasForeignKey("ElisaId");
+                        .HasForeignKey("ElisaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("LimsDataAccess.Models.Sample", "Sample")
                         .WithMany("Tests")
