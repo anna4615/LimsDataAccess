@@ -7,7 +7,7 @@ namespace LimsDataAccess.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public double? Concentration { get; set; }
+        public float? Concentration { get; set; }
         public DateTime DateAdded { get; set; }
         public List<Test> Tests { get; set; }
 

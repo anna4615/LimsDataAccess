@@ -29,6 +29,9 @@ namespace LimsDataAccess.Migrations
                     b.Property<DateTime>("DateAdded")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime?>("DateFinished")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Status")
                         .HasColumnType("nvarchar(max)");
 
@@ -44,8 +47,8 @@ namespace LimsDataAccess.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<double?>("Concentration")
-                        .HasColumnType("float");
+                    b.Property<float?>("Concentration")
+                        .HasColumnType("real");
 
                     b.Property<DateTime>("DateAdded")
                         .HasColumnType("datetime2");
@@ -65,6 +68,9 @@ namespace LimsDataAccess.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<float?>("Concentration")
+                        .HasColumnType("real");
+
                     b.Property<DateTime>("DateAdded")
                         .HasColumnType("datetime2");
 
@@ -73,6 +79,9 @@ namespace LimsDataAccess.Migrations
 
                     b.Property<int>("ElisaPlatePosition")
                         .HasColumnType("int");
+
+                    b.Property<float?>("MeasureValue")
+                        .HasColumnType("real");
 
                     b.Property<int>("SampleId")
                         .HasColumnType("int");

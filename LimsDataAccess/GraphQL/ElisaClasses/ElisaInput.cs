@@ -1,8 +1,13 @@
-﻿namespace LimsDataAccess.GraphQL.ElisaClasses
+﻿using LimsDataAccess.GraphQL.TestClasses;
+using System.Collections.Generic;
+
+namespace LimsDataAccess.GraphQL.ElisaClasses
 {
-    //den här behövs inte som det är nu, Elisa skapas utan inputvärden
+   
     public class ElisaInput
     {
-
+        public int  Id { get; set; }
+        public string Status { get; set; }
+        public List<TestInput> TestInputs { get; set; }
     }
 }

@@ -4,7 +4,10 @@ using LimsDataAccess.Data;
 using LimsDataAccess.GraphQL.ElisaClasses;
 using LimsDataAccess.GraphQL.TestClasses;
 using LimsDataAccess.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace LimsDataAccess.GraphQL
@@ -19,7 +22,7 @@ namespace LimsDataAccess.GraphQL
             Elisa elisa = new Elisa
             {
                 Status = "In Progress",
-                DateAdded = DateTime.Now
+                DateAdded = DateTime.UtcNow
             };
 
             context.Elisa.Add(elisa);
@@ -31,7 +34,7 @@ namespace LimsDataAccess.GraphQL
         }
 
         [UseDbContext(typeof(LimsContext))]
-        public async Task<TestPayload> AddTest(TestInput input, [ScopedService] LimsContext context)
+        public async Task<TestPayload> AddTestAsync(TestInput input, [ScopedService] LimsContext context)
         {
             Test test = new Test
             {
@@ -39,32 +42,53 @@ namespace LimsDataAccess.GraphQL
                 ElisaId = input.ElisaId,
                 ElisaPlatePosition = input.ElisaPlatePosition,
                 Status = "In Progress",
-                DateAdded = DateTime.Now
+                DateAdded = DateTime.UtcNow
             };
 
             context.Test.Add(test);
             await context.SaveChangesAsync();
 
             TestPayload payload = new TestPayload(test);
+            
+            return payload;
+        }
+
+        [UseDbContext(typeof(LimsContext))]
+        public async Task<ElisaPayload> SaveElisaResultAsync(ElisaInput elisaInput, [ScopedService] LimsContext context)
+        {
+            Elisa elisa = context.Elisa.Include(e => e.Tests).ToListAsync().Result
+                            .FirstOrDefault(e => e.Id == elisaInput.Id);
+
+            elisa.Status = elisaInput.Status;
+            elisa.DateFinished = DateTime.UtcNow;
+
+            context.Entry(elisa).State = EntityState.Modified;
+
+            try
+            {
+                await context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                //if (!ElisaExists(input.Id))
+                //{
+                //    return NotFound();
+                //}
+                //else
+                //{
+                    throw;
+                //}
+            }
+
+            ElisaPayload payload = new ElisaPayload(elisa);
 
             return payload;
         }
 
-        
-        //private Test CreateTest(TestInput input)
+        //private bool ElisaExists(int id, [ScopedService] LimsContext context)
         //{
-        //    Test test = new Test();
-
-        //    //TODO: felhantering om det inte går att parsa input-värden
-
-        //    if (int.TryParse(input.SampleId, out int sampleId))
-        //        test.SampleId = sampleId;
-        //    if (int.TryParse(input.ElisaId, out int elisaId))
-        //        test.ElisaId = elisaId;
-        //    if (int.TryParse(input.ElisaPlatePosition, out int platePosition))
-        //        test.ElisaPlatePosition = platePosition;
-
-        //    return test;
+        //    return context.Elisa.Any(e => e.Id == id);
         //}
+
     }
 }
