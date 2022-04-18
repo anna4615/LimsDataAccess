@@ -9,7 +9,7 @@ namespace LimsDataAccess.Models
         public int ElisaId { get; set; }
         public int ElisaPlatePosition { get; set; }
         public string Status { get; set; }
-        public DateTime DateAdded { get; set; }
+        public DateTime? DateAdded { get; set; }
         public float? MeasureValue { get; set; }
         public float? Concentration { get; set; }
         public Sample Sample { get; set; }

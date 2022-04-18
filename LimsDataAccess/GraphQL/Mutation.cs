@@ -38,9 +38,9 @@ namespace LimsDataAccess.GraphQL
         {
             Test test = new Test
             {
-                SampleId = input.SampleId,
-                ElisaId = input.ElisaId,
-                ElisaPlatePosition = input.ElisaPlatePosition,
+                SampleId = (int)input.SampleId,
+                ElisaId = (int)input.ElisaId,
+                ElisaPlatePosition = (int)input.ElisaPlatePosition,
                 Status = "In Progress",
                 DateAdded = DateTime.UtcNow
             };
@@ -56,7 +56,7 @@ namespace LimsDataAccess.GraphQL
         [UseDbContext(typeof(LimsContext))]
         public async Task<ElisaPayload> SaveElisaResultAsync(ElisaInput elisaInput, [ScopedService] LimsContext context)
         {
-            Elisa elisa = context.Elisa.Include(e => e.Tests).ToListAsync().Result
+            Elisa elisa = context.Elisa.Include(e => e.Tests).ThenInclude(t => t.Sample).ToListAsync().Result
                             .FirstOrDefault(e => e.Id == elisaInput.Id);
 
             elisa.Status = elisaInput.Status;
