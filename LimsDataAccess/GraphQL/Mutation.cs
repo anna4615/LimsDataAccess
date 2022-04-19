@@ -49,7 +49,7 @@ namespace LimsDataAccess.GraphQL
             await context.SaveChangesAsync();
 
             TestPayload payload = new TestPayload(test);
-            
+
             return payload;
         }
 
@@ -64,6 +64,25 @@ namespace LimsDataAccess.GraphQL
 
             context.Entry(elisa).State = EntityState.Modified;
 
+            foreach (Test test in elisa.Tests)
+            {
+                TestInput testInput = elisaInput.TestInputs.FirstOrDefault(ti => ti.Id == test.Id);
+                if (testInput.Concentration.HasValue)
+                    test.Concentration = testInput.Concentration;
+                if (testInput.MeasuredValue.HasValue)
+                    test.MeasureValue = testInput.MeasuredValue;
+                if (string.IsNullOrEmpty(testInput.Status) == false)
+                {
+                    test.Status = testInput.Status;
+                    if (testInput.Status == "Approved")
+                    {
+                        test.Sample.Concentration = testInput.Concentration;
+                    }
+                }
+            }
+
+
+
             try
             {
                 await context.SaveChangesAsync();
@@ -76,7 +95,7 @@ namespace LimsDataAccess.GraphQL
                 //}
                 //else
                 //{
-                    throw;
+                throw;
                 //}
             }
 
