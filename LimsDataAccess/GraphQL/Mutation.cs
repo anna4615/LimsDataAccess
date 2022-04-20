@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 
 namespace LimsDataAccess.GraphQL
 {
@@ -32,6 +33,7 @@ namespace LimsDataAccess.GraphQL
 
             return elisaPayload;
         }
+
 
         [UseDbContext(typeof(LimsContext))]
         public async Task<TestPayload> AddTestAsync(TestInput input, [ScopedService] LimsContext context)
@@ -59,6 +61,7 @@ namespace LimsDataAccess.GraphQL
             Elisa elisa = context.Elisa.Include(e => e.Tests).ThenInclude(t => t.Sample).ToListAsync().Result
                             .FirstOrDefault(e => e.Id == elisaInput.Id);
 
+
             elisa.Status = elisaInput.Status;
             elisa.DateFinished = DateTime.UtcNow;
 
@@ -74,7 +77,7 @@ namespace LimsDataAccess.GraphQL
                 if (string.IsNullOrEmpty(testInput.Status) == false)
                 {
                     test.Status = testInput.Status;
-                    if (testInput.Status == "Approved")
+                    if (testInput.Status.ToLower() == "approved")
                     {
                         test.Sample.Concentration = testInput.Concentration;
                     }

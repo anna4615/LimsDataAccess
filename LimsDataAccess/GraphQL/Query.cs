@@ -28,6 +28,7 @@ namespace LimsDataAccess.GraphQL
             return context.Elisa;
         }
 
+
         [UseDbContext(typeof(LimsContext))]
         [UseProjection]
         [UseFiltering]
@@ -36,6 +37,7 @@ namespace LimsDataAccess.GraphQL
         {
             return context.Sample;
         }
+
 
         [UseDbContext(typeof(LimsContext))]
         [UseProjection]
