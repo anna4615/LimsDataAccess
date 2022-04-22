@@ -55,6 +55,7 @@ namespace LimsDataAccess.GraphQL
             return payload;
         }
 
+
         [UseDbContext(typeof(LimsContext))]
         public async Task<ElisaPayload> SaveElisaResultAsync(ElisaInput elisaInput, [ScopedService] LimsContext context)
         {
@@ -67,13 +68,17 @@ namespace LimsDataAccess.GraphQL
 
             context.Entry(elisa).State = EntityState.Modified;
 
+
             foreach (Test test in elisa.Tests)
             {
                 TestInput testInput = elisaInput.TestInputs.FirstOrDefault(ti => ti.Id == test.Id);
+
                 if (testInput.Concentration.HasValue)
                     test.Concentration = testInput.Concentration;
-                if (testInput.MeasuredValue.HasValue)
-                    test.MeasureValue = testInput.MeasuredValue;
+
+                if (testInput.MeasureValue.HasValue)
+                    test.MeasureValue = testInput.MeasureValue;
+
                 if (string.IsNullOrEmpty(testInput.Status) == false)
                 {
                     test.Status = testInput.Status;
@@ -85,32 +90,13 @@ namespace LimsDataAccess.GraphQL
             }
 
 
-
-            try
-            {
-                await context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                //if (!ElisaExists(input.Id))
-                //{
-                //    return NotFound();
-                //}
-                //else
-                //{
-                throw;
-                //}
-            }
+            await context.SaveChangesAsync();
 
             ElisaPayload payload = new ElisaPayload(elisa);
 
             return payload;
         }
 
-        //private bool ElisaExists(int id, [ScopedService] LimsContext context)
-        //{
-        //    return context.Elisa.Any(e => e.Id == id);
-        //}
 
     }
 }
