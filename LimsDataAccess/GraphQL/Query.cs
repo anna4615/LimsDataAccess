@@ -2,6 +2,7 @@
 using HotChocolate.Data;
 using LimsDataAccess.Data;
 using LimsDataAccess.Models;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
 namespace LimsDataAccess.GraphQL
@@ -25,7 +26,9 @@ namespace LimsDataAccess.GraphQL
         [UseSorting]
         public IQueryable<Elisa> GetElisas([ScopedService] LimsContext context)
         {
-            return context.Elisa;
+            var elisas =context.Elisa.Include(e => e.Tests).ThenInclude(t => t.Sample);
+
+            return elisas;
         }
 
 
