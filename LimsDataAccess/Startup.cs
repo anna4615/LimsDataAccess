@@ -3,18 +3,10 @@ using LimsDataAccess.Data;
 using LimsDataAccess.GraphQL;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace LimsDataAccess
 {
@@ -30,11 +22,6 @@ namespace LimsDataAccess
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddControllers();
-            //services.AddSwaggerGen(c =>
-            //{
-            //    c.SwaggerDoc("v1", new OpenApiInfo { Title = "LimsDataAccess", Version = "v1" });
-            //});
 
             //AddPooledDbContextFactory istället för AddDbContext för att kunna hantera att fler anrop som sker samtidigt
             services.AddPooledDbContextFactory<LimsContext>(options =>
@@ -56,21 +43,12 @@ namespace LimsDataAccess
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                //app.UseSwagger();
-                //app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "LimsDataAccess v1"));
             }
 
             //Tar bort redirection för att kunna anropa localhost från Java-projekt, Certifikat-problem annars
             //app.UseHttpsRedirection();
 
             app.UseRouting();
-
-            //app.UseAuthorization();
-
-            //app.UseEndpoints(endpoints =>
-            //{
-            //    endpoints.MapControllers();
-            //});
 
 
             //https://localhost:44303/graphQL/
