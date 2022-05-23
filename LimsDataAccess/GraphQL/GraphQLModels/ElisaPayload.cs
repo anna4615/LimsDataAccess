@@ -1,6 +1,6 @@
 ﻿using LimsDataAccess.Models;
 
-namespace LimsDataAccess.GraphQL.ElisaClasses
+namespace LimsDataAccess.GraphQL.GraphQLModels
 {
     public class ElisaPayload
     {

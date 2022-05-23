@@ -1,8 +1,7 @@
 ﻿using HotChocolate;
 using HotChocolate.Data;
 using LimsDataAccess.Data;
-using LimsDataAccess.GraphQL.ElisaClasses;
-using LimsDataAccess.GraphQL.TestClasses;
+using LimsDataAccess.GraphQL.GraphQLModels;
 using LimsDataAccess.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -10,13 +9,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using LimsDataAccess.GraphQL.GraphQLModels;
 
 namespace LimsDataAccess.GraphQL
 {
 
     public class Mutation
     {
+        //Injektion av context görs med [ScopedService] som parameter i metoden
+        //vilket gör att injection via konstruktorn inte behövs
+
+        //private readonly LimsContext _context;
+
+        //public Query(LimsContext context)
+        //{
+        //    _context = context;
+        //}
+
+
         [UseDbContext(typeof(LimsContext))]
+        //[Service] tillgängligt via Hotchocolate, gör att context inte behöver injiceras från
+        //konstruktor utan direkt som parameter i metoden
         public async Task<ElisaPayload> AddElisaAsync([ScopedService] LimsContext context)
         {
 
@@ -96,6 +109,7 @@ namespace LimsDataAccess.GraphQL
 
             return payload;
         }
+
 
 
         //I nuläget har alltid alla Elisans tester samma status som Elisan. Om man i framtiden vill sätta olika status 

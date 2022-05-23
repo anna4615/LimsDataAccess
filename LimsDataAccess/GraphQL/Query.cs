@@ -10,7 +10,9 @@ namespace LimsDataAccess.GraphQL
     public class Query
     {
 
-        //Injektion av context görs med [Service] i metoden, se nedan
+        //Injektion av context görs med [ScopedService] som parameter i metoden
+        //vilket gör att injection via konstruktorn inte behövs
+
         //private readonly LimsContext _context;
 
         //public Query(LimsContext context)
@@ -19,14 +21,15 @@ namespace LimsDataAccess.GraphQL
         //}
 
 
-        //[service] tillgängligt via Hotchocolate, gör att context inte behöver injiceras från konstruktor utan direkt i metoden
         [UseDbContext(typeof(LimsContext))]
-        [UseProjection]
+        [UseProjection]  //Gör att child objects kommer med
         [UseFiltering]
         [UseSorting]
+        //[Service] tillgängligt via Hotchocolate, gör att context inte behöver injiceras från
+        //konstruktor utan direkt som parameter i metoden
         public IQueryable<Elisa> GetElisas([ScopedService] LimsContext context)
         {
-            var elisas =context.Elisa.Include(e => e.Tests).ThenInclude(t => t.Sample);
+            var elisas = context.Elisa;
 
             return elisas;
         }

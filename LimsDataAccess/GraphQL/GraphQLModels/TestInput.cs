@@ -1,6 +1,6 @@
-﻿using System.Text.Json.Serialization;
+﻿
 
-namespace LimsDataAccess.GraphQL.TestClasses
+namespace LimsDataAccess.GraphQL.GraphQLModels
 {
     public class TestInput
     {

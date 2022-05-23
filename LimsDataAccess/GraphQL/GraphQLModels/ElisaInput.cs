@@ -1,10 +1,9 @@
-﻿using LimsDataAccess.GraphQL.TestClasses;
-using System.Collections.Generic;
-using System.Text.Json.Serialization;
+﻿using System.Collections.Generic;
 
-namespace LimsDataAccess.GraphQL.ElisaClasses
+
+namespace LimsDataAccess.GraphQL.GraphQLModels
 {
-   
+
     public class ElisaInput
     {
         public int  Id { get; set; }

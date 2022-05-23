@@ -1,6 +1,6 @@
 ﻿using LimsDataAccess.Models;
 
-namespace LimsDataAccess.GraphQL.TestClasses
+namespace LimsDataAccess.GraphQL.GraphQLModels
 {
     public class TestPayload
     {

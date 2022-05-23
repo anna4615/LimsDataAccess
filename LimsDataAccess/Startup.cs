@@ -36,6 +36,7 @@ namespace LimsDataAccess
             //    c.SwaggerDoc("v1", new OpenApiInfo { Title = "LimsDataAccess", Version = "v1" });
             //});
 
+            //AddPooledDbContextFactory istället för AddDbContext för att kunna hantera att fler anrop som sker samtidigt
             services.AddPooledDbContextFactory<LimsContext>(options =>
                    options.UseSqlServer(Configuration.GetConnectionString("LimsContext")));
 
