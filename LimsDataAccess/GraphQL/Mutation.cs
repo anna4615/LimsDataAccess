@@ -67,6 +67,23 @@ namespace LimsDataAccess.GraphQL
             return payload;
         }
 
+        [UseDbContext(typeof(LimsContext))]
+        public async Task<SamplePayload> AddSampleAsync(String name, [ScopedService] LimsContext context)
+        {
+            Sample sample = new Sample
+            {
+                Name = name,
+                DateAdded = DateTime.UtcNow
+            };
+
+            context.Sample.Add(sample);
+            await context.SaveChangesAsync();
+
+            SamplePayload payload = new SamplePayload(sample);
+
+            return payload;
+        }
+
 
 
         [UseDbContext(typeof(LimsContext))]
@@ -113,6 +130,7 @@ namespace LimsDataAccess.GraphQL
 
         //I nuläget har alltid alla Elisans tester samma status som Elisan. Om man i framtiden vill sätta olika status 
         //för tester i samma Elisa msåte man göra om den här metoden
+
         [UseDbContext(typeof(LimsContext))]
         public async Task<ElisaPayload> UpdateElisaStatus(int elisaId, string status, [ScopedService] LimsContext context)
         {

@@ -23,7 +23,7 @@ namespace LimsDataAccess
         public void ConfigureServices(IServiceCollection services)
         {
 
-            //AddPooledDbContextFactory istället för AddDbContext för att kunna hantera att fler anrop som sker samtidigt
+            //AddPooledDbContextFactory istället för AddDbContext för att kunna hantera att fler anrop sker samtidigt
             services.AddPooledDbContextFactory<LimsContext>(options =>
                    options.UseSqlServer(Configuration.GetConnectionString("LimsContext")));
 
