@@ -51,15 +51,16 @@ namespace LimsDataAccess
             app.UseRouting();
 
 
-            //https://localhost:44303/graphQL/
-            //http://localhost:3627/graphql/
+            //https://localhost:5001/graphQL/
+            //http://localhost:5000/graphql/
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapGraphQL();
             });
 
 
-            //https://localhost:44303/ui/voyager
+            //https://localhost:5001/ui/voyager
+            //http://localhost:5000/ui/voyager
             app.UseGraphQLVoyager(new VoyagerOptions());
         }
     }
